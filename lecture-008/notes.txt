@@ -1,0 +1,128 @@
+In this lecture we will study about switch-case statements and functions.
+
+Let us take a look at switch-case statements first.
+The use of switch-case statements comes only in case of multiple cases present to a certain statement and instead of putting too many conditional statements we can simply use switch-case instead.(to avoid violate DRY principle)
+
+The thing with switch-case statements is that only int and char are allowed to be used in it.
+
+And also in case of switch-case, only break keyword is valid and not continue keyword.
+In fact in many programming languages, including C, C++, Java, and others, the continue keyword is not used within switch-case statements because it's not designed to work in that context.
+
+The continue statement is typically used in loop constructs like for, while, or do-while to skip the rest of the code within the loop's body for the current iteration and move to the next iteration. It's not meant to be used to control the flow within switch-case constructs, which are primarily used for multi-way branching.
+
+In a switch-case statement, once a case is matched, the code execution starts from that case and continues until the end of the switch block or until a break statement is encountered. The break statement is used to exit the switch block after executing the code associated with the matched case. Using continue wouldn't make sense in this context because there's no concept of "skipping" to the next iteration like in a loop.
+
+However, some languages provide mechanisms to fall through from one case to another without a break statement (e.g., in C, if no break statement is encountered, control falls through to the next case). In such cases, using continue would disrupt this fall-through behavior and cause unintended consequences.
+
+Therefore, to control the flow within a switch-case statement, programmers use break to exit the switch block or allow the fall-through behavior where necessary.
+
+We also leaned more about exit().
+In C++, the exit() function is part of the <cstdlib> header and is used to terminate a program. It allows you to exit a program and return a status code to the operating system. The exit() function takes an integer argument, which represents the exit status of the program.
+
+Here's a simple example:
+
+#include <cstdlib>
+int main() {
+    // Your program logic here
+    // Exit the program with a status code of 0
+    exit(0);
+}
+
+The integer argument passed to exit() is often used to indicate the success or failure of the program. By convention, a return value of 0 typically indicates successful execution, while non-zero values indicate errors or abnormal termination.
+Here's an example where the program exits with a non-zero status:
+
+#include <cstdlib>
+#include <iostream>
+int main() {
+    // Your program logic here
+    // Exit the program with a status code of 1
+    exit(1);
+}
+
+It's important to note that calling exit() will immediately terminate the program, and no further code in the program will be executed after the call to exit(). This includes any destructors for automatic objects (variables with automatic storage duration).
+
+If you need to perform cleanup operations before exiting, it's often better to use the atexit() function or rely on C++'s destructors and resource management techniques.
+
+Here's an example using atexit():
+
+#include <cstdlib>
+#include <iostream>
+void cleanupFunction() {
+    std::cout << "Performing cleanup before exit." << std::endl;
+    // Additional cleanup logic
+}
+int main() {
+    // Your program logic here
+    // Register the cleanup function
+    atexit(cleanupFunction);
+    // Exit the program with a status code of 0
+    exit(0);
+}
+
+This way, cleanupFunction() will be called before the program exits, allowing you to perform necessary cleanup operations.
+
+
+Pass by value and pass by reference are two fundamental ways in which programming languages handle passing arguments to functions or methods. These concepts are particularly relevant in languages like C, C++, Java, and others.
+
+Pass by Value:
+In pass by value, a copy of the actual parameter's value is passed to the function or method being called. This means that any modifications made to the parameter inside the function do not affect the original variable in the caller's scope.
+
+Characteristics:
+Value Copying: The function receives a copy of the parameter's value, not the parameter itself.
+
+Isolation: Changes made to the parameter inside the function are confined to the function's scope and do not reflect in the caller's scope.
+
+Immutable: The original value passed remains unchanged.
+
+Example (C++):
+cpp
+Copy code
+#include <iostream>
+
+void increment(int x) {
+    x++; // Changes are local to this function
+}
+
+int main() {
+    int num = 5;
+    increment(num);
+    std::cout << num; // Output: 5 (unchanged)
+    return 0;
+}
+Pass by Reference:
+In pass by reference, instead of passing a copy of the value, the function receives a reference or address of the actual parameter. Any changes made to the parameter inside the function directly affect the original variable in the caller's scope.
+
+Characteristics:
+Direct Access: The function operates directly on the original parameter.
+
+Mutability: Changes made to the parameter inside the function reflect in the caller's scope.
+
+Efficiency: Avoids creating unnecessary copies of large data structures.
+
+Example (C++):
+cpp
+Copy code
+#include <iostream>
+
+void increment(int& x) {
+    x++; // Changes are reflected in the original variable
+}
+
+int main() {
+    int num = 5;
+    increment(num);
+    std::cout << num; // Output: 6 (modified)
+    return 0;
+}
+Related Concepts:
+Pointers: In languages like C and C++, pass by reference is often implemented using pointers, which store the memory address of a variable.
+
+Memory Management: Pass by reference requires careful consideration of memory management to avoid issues like dangling references or memory leaks.
+
+Const Reference: Some languages support passing parameters by const reference, allowing read-only access to the original variable within the function.
+
+Pass by Value-Result: This is a hybrid approach where the function receives a copy of the value, but changes made to the parameter inside the function are reflected back to the original variable upon function completion.
+
+Immutable Data Structures: In some languages, like functional programming languages, data structures are immutable by default, meaning they cannot be modified after creation. This simplifies pass by value semantics as no unexpected modifications can occur.
+
+Understanding these concepts is crucial for designing efficient and predictable programs, especially when dealing with complex data structures or when performance is a concern.
